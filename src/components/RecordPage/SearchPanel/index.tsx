@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useAtom, useSetAtom } from 'jotai'
-import { Button, Grid, Text, Input, Paper } from '@mantine/core'
 
+import { Input } from '@/components/ui/input'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { currentPageAtom, queryAtom } from '@/components/RecordPage/atom'
 
 const SearchPanel = () => {
@@ -26,30 +28,28 @@ const SearchPanel = () => {
   }
 
   return (
-    <Paper shadow="xs" px="lg" py="xs" mb="md" withBorder>
-      <Grid align={'center'}>
-        <Grid.Col span="content">
-          <Text size={'sm'}>Query by vectors or ID:</Text>
-        </Grid.Col>
-        <Grid.Col span="auto">
+    <Card className="p-4 mb-4 border">
+      <div className="flex items-center gap-4">
+        <div className="flex-shrink-0">
+          <span className="text-sm text-muted-foreground">Query by vectors or ID:</span>
+        </div>
+        <div className="flex-1">
           <Input
             placeholder="0.1, 0.2, 0.3, -0.1, -0.2, -0.3"
             value={queryValue}
-            onChange={e => setQueryValue(e.currentTarget.value)}
+            onChange={e => setQueryValue(e.target.value)}
           />
-        </Grid.Col>
-        <Grid.Col span="content">
-          <Button variant="filled" onClick={queryButtonClicked}>
-            Query
-          </Button>
-        </Grid.Col>
-        <Grid.Col span="content">
-          <Button variant="default" onClick={clearButtonClicked}>
+        </div>
+        <div className="flex-shrink-0">
+          <Button onClick={queryButtonClicked}>Query</Button>
+        </div>
+        <div className="flex-shrink-0">
+          <Button variant="outline" onClick={clearButtonClicked}>
             Clear
           </Button>
-        </Grid.Col>
-      </Grid>
-    </Paper>
+        </div>
+      </div>
+    </Card>
   )
 }
 

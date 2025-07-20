@@ -3,9 +3,9 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Container, Paper, Text, Title } from '@mantine/core'
 
 import { useGetCollections, useGetConfig } from '@/lib/client/query'
+import { Card } from '@/components/ui/card'
 
 export default function CollectionsPage() {
   const router = useRouter()
@@ -20,28 +20,35 @@ export default function CollectionsPage() {
 
   if (isError) {
     return (
-      <Container ta={'center'}>
-        <Paper withBorder ta={'center'} shadow="md" p={30} radius="md" mt="xl">
-          <Title order={2}>Something went wrong</Title>
-          <Text>{error.message}</Text>
-          <Text>
-            Go to <Link href={'/setup'}>Setup</Link>.
-          </Text>
-        </Paper>
-      </Container>
+      <div className="container mx-auto max-w-md text-center">
+        <Card className="p-8 mt-8 border shadow-md">
+          <h2 className="text-2xl font-semibold mb-4">Something went wrong</h2>
+          <p className="mb-2">{error.message}</p>
+          <p>
+            Go to{' '}
+            <Link href="/setup" className="text-primary hover:underline">
+              Setup
+            </Link>
+            .
+          </p>
+        </Card>
+      </div>
     )
   }
 
   if (collections != null && collections.length === 0) {
     return (
-      <Container ta={'center'}>
-        <Paper withBorder ta={'center'} shadow="md" p={30} radius="md" mt="xl">
-          <Text>There is no collections.</Text>
-          <Text>
-            <Link href={'/setup'}>Setup</Link> a new Chroma instance.
-          </Text>
-        </Paper>
-      </Container>
+      <div className="container mx-auto max-w-md text-center">
+        <Card className="p-8 mt-8 border shadow-md">
+          <p className="mb-2">There are no collections.</p>
+          <p>
+            <Link href="/setup" className="text-primary hover:underline">
+              Setup
+            </Link>{' '}
+            a new Chroma instance.
+          </p>
+        </Card>
+      </div>
     )
   }
 

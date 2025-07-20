@@ -1,55 +1,59 @@
 import { Icon123, IconBlockquote, IconBraces } from '@tabler/icons-react'
-import { Text, List, Container, Tabs, rem, ScrollArea } from '@mantine/core'
 
-import type { ContextModalProps } from '@mantine/modals'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ScrollArea } from '@/components/ui/scroll-area'
+
 import type { Record } from '@/lib/types'
 
-const RecordDetailModal = ({ context, id, innerProps }: ContextModalProps<{ record: Record }>) => {
-  const iconStyle = { width: rem(14), height: rem(14) }
+const RecordDetailModal = ({ record }: { record: Record }) => {
+  const iconStyle = { width: 14, height: 14 }
 
   return (
-    <Tabs defaultValue="Document">
-      <Tabs.List grow>
-        <Tabs.Tab value="Document" leftSection={<IconBlockquote style={iconStyle} />}>
+    <Tabs defaultValue="Document" className="w-full">
+      <TabsList className="grid w-full grid-cols-3">
+        <TabsTrigger value="Document" className="flex items-center gap-2">
+          <IconBlockquote style={iconStyle} />
           Document
-        </Tabs.Tab>
-        <Tabs.Tab value="Embedding" leftSection={<Icon123 style={iconStyle} />}>
+        </TabsTrigger>
+        <TabsTrigger value="Embedding" className="flex items-center gap-2">
+          <Icon123 style={iconStyle} />
           Embedding
-        </Tabs.Tab>
-        <Tabs.Tab value="Metadata" leftSection={<IconBraces style={iconStyle} />}>
+        </TabsTrigger>
+        <TabsTrigger value="Metadata" className="flex items-center gap-2">
+          <IconBraces style={iconStyle} />
           Metadata
-        </Tabs.Tab>
-      </Tabs.List>
+        </TabsTrigger>
+      </TabsList>
 
-      <Tabs.Panel value="Document">
-        <Container p={'md'}>
-          <ScrollArea h={250}>
-            <Text size={'sm'}>{innerProps.record.document}</Text>
+      <TabsContent value="Document" className="mt-4">
+        <div className="p-4">
+          <ScrollArea className="h-64">
+            <p className="text-sm">{record.document}</p>
           </ScrollArea>
-        </Container>
-      </Tabs.Panel>
+        </div>
+      </TabsContent>
 
-      <Tabs.Panel value="Embedding">
-        <Container p={'md'}>
-          <ScrollArea h={250}>
-            <List>
-              {innerProps.record.embedding.map((embedding, index) => (
-                <List.Item key={index}>
-                  <Text size={'sm'}>{embedding}</Text>
-                </List.Item>
+      <TabsContent value="Embedding" className="mt-4">
+        <div className="p-4">
+          <ScrollArea className="h-64">
+            <ul className="space-y-1">
+              {record.embedding.map((embedding, index) => (
+                <li key={index} className="text-sm">
+                  {embedding}
+                </li>
               ))}
-            </List>
+            </ul>
           </ScrollArea>
-        </Container>
-      </Tabs.Panel>
+        </div>
+      </TabsContent>
 
-      <Tabs.Panel value="Metadata">
-        <Container p={'md'}>
-          <ScrollArea h={250}>
-            <Text size={'sm'}>{JSON.stringify(innerProps.record.metadata)}</Text>
+      <TabsContent value="Metadata" className="mt-4">
+        <div className="p-4">
+          <ScrollArea className="h-64">
+            <pre className="text-sm whitespace-pre-wrap">{JSON.stringify(record.metadata, null, 2)}</pre>
           </ScrollArea>
-        </Container>
-      </Tabs.Panel>
+        </div>
+      </TabsContent>
     </Tabs>
   )
 }

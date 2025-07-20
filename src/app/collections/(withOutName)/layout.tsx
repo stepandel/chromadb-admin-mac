@@ -4,9 +4,10 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { IconSettings } from '@tabler/icons-react'
-import { ActionIcon, Anchor, AppShell, AppShellHeader, AppShellMain, Group, Text } from '@mantine/core'
 
 import { useGetConfig } from '@/lib/client/query'
+import { Button } from '@/components/ui/button'
+import { AppShell, AppShellMain, AppShellHeader } from '@/components/ui/app-shell'
 
 import type { ReactNode } from 'react'
 
@@ -21,24 +22,25 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   }, [config, router])
 
   return (
-    <AppShell header={{ height: 60 }} padding="md">
-      <AppShellHeader>
-        <Group h="100%" px="lg" justify="space-between">
-          <Group>
-            <Text fw={700}>Chromadb Admin</Text>
-          </Group>
-          <Group>
-            <Text size="sm" c="dimmed">
-              {config?.connectionString}
-            </Text>
-            <Anchor component={Link} href="/setup" title={'Setup'}>
-              <ActionIcon variant="default" aria-label="Settings" size={'lg'}>
-                <IconSettings stroke={1.5} />
-              </ActionIcon>
-            </Anchor>
-          </Group>
-        </Group>
-      </AppShellHeader>
+    <AppShell
+      header={
+        <AppShellHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="font-bold text-lg">Chromadb Admin</h1>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-muted-foreground">{config?.connectionString}</span>
+              <Button variant="ghost" size="icon" asChild title="Setup">
+                <Link href="/setup">
+                  <IconSettings className="h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </AppShellHeader>
+      }
+    >
       <AppShellMain>{children}</AppShellMain>
     </AppShell>
   )

@@ -1,8 +1,6 @@
-import '@mantine/core/styles.css'
-import './globals.css'
-import { MantineProvider, ColorSchemeScript } from '@mantine/core'
-
 import ReactQueryProvider from '@/app/ReactQueryProvider'
+
+import './globals.css'
 
 import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
@@ -14,13 +12,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html>
-      <head suppressHydrationWarning>
-        <ColorSchemeScript />
-      </head>
+      <head suppressHydrationWarning />
       <body>
-        <ReactQueryProvider>
-          <MantineProvider>{children}</MantineProvider>
-        </ReactQueryProvider>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
   )

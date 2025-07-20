@@ -1,21 +1,21 @@
-import { LoadingOverlay, Table } from '@mantine/core'
+import { Table, TableHeader, TableBody, TableRow, TableHead } from '@/components/ui/table'
+import { LoadingOverlay } from '@/components/ui/loading-overlay'
 
 const LoadingRecordTable = () => {
   return (
-    <>
+    <LoadingOverlay visible>
       <Table>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>ID</Table.Th>
-            <Table.Th>Document</Table.Th>
-            <Table.Th>Metadata</Table.Th>
-            <Table.Th>Embedding</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody></Table.Tbody>
+        <TableHeader>
+          <TableRow>
+            <TableHead>ID</TableHead>
+            <TableHead>Document</TableHead>
+            <TableHead>Metadata</TableHead>
+            <TableHead>Embedding</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody></TableBody>
       </Table>
-      <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
-    </>
+    </LoadingOverlay>
   )
 }
 

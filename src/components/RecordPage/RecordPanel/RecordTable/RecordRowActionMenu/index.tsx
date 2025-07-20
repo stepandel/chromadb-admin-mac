@@ -1,7 +1,8 @@
 import { useSetAtom } from 'jotai'
 import { IconDots } from '@tabler/icons-react'
-import { ActionIcon, Menu } from '@mantine/core'
 
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
 import { currentPageAtom, queryAtom } from '@/components/RecordPage/atom'
 
 const RecordRowActionMenu = ({ embedding }: { embedding: string }) => {
@@ -14,17 +15,16 @@ const RecordRowActionMenu = ({ embedding }: { embedding: string }) => {
   }
 
   return (
-    <Menu shadow="md" width={200} position={'right'} withArrow>
-      <Menu.Target>
-        <ActionIcon variant="default" aria-label="Settings" onClick={event => event.stopPropagation()}>
-          <IconDots style={{ width: '70%', height: '70%' }} stroke={1.5} />
-        </ActionIcon>
-      </Menu.Target>
-
-      <Menu.Dropdown>
-        <Menu.Item onClick={queryMenuItemClicked}>Query by this record</Menu.Item>
-      </Menu.Dropdown>
-    </Menu>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="sm" onClick={event => event.stopPropagation()} aria-label="Settings">
+          <IconDots className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={queryMenuItemClicked}>Query by this record</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 

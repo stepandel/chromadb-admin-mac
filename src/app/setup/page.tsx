@@ -3,10 +3,14 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
-import { Container, Title, Paper, TextInput, Group, Button, Radio } from '@mantine/core'
 
 import { useGetConfig } from '@/lib/client/query'
 import { updateConfig } from '@/lib/client/localstorage'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 export default function SetupPage() {
   const router = useRouter()
@@ -76,76 +80,102 @@ export default function SetupPage() {
   }
 
   return (
-    <Container size={460} my={30}>
-      <Title order={1} ta="center">
-        Chromadb Admin
-      </Title>
-      <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
-        <TextInput
-          label="Chroma connection string"
-          description="For example, http://localhost:8000"
-          placeholder="http://localhost:8000"
-          value={connectionString}
-          onChange={e => setConnectionString(e.currentTarget.value)}
-        />
-        <TextInput
-          label="Tenant"
-          description="The tenant to set."
-          placeholder="default_tenant"
-          value={tenant}
-          onChange={e => setTenant(e.currentTarget.value)}
-        />
-        <TextInput
-          label="Database"
-          description="The database to set."
-          placeholder="default_database"
-          value={database}
-          onChange={e => setDatabase(e.currentTarget.value)}
-        />
-        <Radio.Group label="Authentication Type" value={authType} onChange={setAuthType} mt="md">
-          <Group mt="xs">
-            <Radio value="no_auth" label="No Auth" />
-            <Radio value="token" label="Token" />
-            <Radio value="basic" label="Basic" />
-          </Group>
-        </Radio.Group>
-        {authType === 'token' && (
-          <TextInput
-            label="Token"
-            placeholder="Enter your token"
-            mt="md"
-            value={token}
-            onChange={e => setToken(e.currentTarget.value)}
-          />
-        )}
-        {authType === 'basic' && (
-          <div>
-            <TextInput
-              label="Username"
-              placeholder="Enter your username"
-              mt="md"
-              value={username}
-              onChange={e => setUsername(e.currentTarget.value)}
+    <div className="container mx-auto max-w-md py-8">
+      <h1 className="text-3xl font-bold text-center mb-8">Chromadb Admin</h1>
+      <Card className="p-8 border shadow-md">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="connectionString">Chroma connection string</Label>
+            <Input
+              id="connectionString"
+              placeholder="http://localhost:8000"
+              value={connectionString}
+              onChange={e => setConnectionString(e.target.value)}
             />
-            <TextInput
-              label="Password"
-              placeholder="Enter your password"
-              mt="md"
-              value={password}
-              onChange={e => setPassword(e.currentTarget.value)}
-              type="password"
-            />
+            <p className="text-sm text-muted-foreground">For example, http://localhost:8000</p>
           </div>
-        )}
-        <Group mt="lg" justify="flex-end">
-          {appConfig?.connectionString && (
-            <Button variant="default" onClick={backButtonClicked}>
-              Back
-            </Button>
+
+          <div className="space-y-2">
+            <Label htmlFor="tenant">Tenant</Label>
+            <Input id="tenant" placeholder="default_tenant" value={tenant} onChange={e => setTenant(e.target.value)} />
+            <p className="text-sm text-muted-foreground">The tenant to set.</p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="database">Database</Label>
+            <Input
+              id="database"
+              placeholder="default_database"
+              value={database}
+              onChange={e => setDatabase(e.target.value)}
+            />
+            <p className="text-sm text-muted-foreground">The database to set.</p>
+          </div>
+
+          <div className="space-y-3">
+            <Label>Authentication Type</Label>
+            <RadioGroup value={authType} onValueChange={setAuthType}>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="no_auth" id="no_auth" />
+                <Label htmlFor="no_auth">No Auth</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="token" id="token" />
+                <Label htmlFor="token">Token</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="basic" id="basic" />
+                <Label htmlFor="basic">Basic</Label>
+              </div>
+            </RadioGroup>
+          </div>
+
+          {authType === 'token' && (
+            <div className="space-y-2">
+              <Label htmlFor="tokenInput">Token</Label>
+              <Input
+                id="tokenInput"
+                placeholder="Enter your token"
+                value={token}
+                onChange={e => setToken(e.target.value)}
+              />
+            </div>
           )}
-          <Button onClick={connectButtonClicked}>Connect</Button>
-        </Group>
-      </Paper>
-    </Container>
+
+          {authType === 'basic' && (
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="flex justify-end gap-2 pt-4">
+            {appConfig?.connectionString && (
+              <Button variant="outline" onClick={backButtonClicked}>
+                Back
+              </Button>
+            )}
+            <Button onClick={connectButtonClicked}>Connect</Button>
+          </div>
+        </div>
+      </Card>
+    </div>
   )
 }

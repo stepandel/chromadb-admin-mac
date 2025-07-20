@@ -1,10 +1,8 @@
 import { useAtomValue } from 'jotai'
-import { ModalsProvider } from '@mantine/modals'
-import { Group, Paper, Text } from '@mantine/core'
 
 import { useGetCollectionRecords, useGetConfig } from '@/lib/client/query'
+import { Card } from '@/components/ui/card'
 import { currentPageAtom, queryAtom } from '@/components/RecordPage/atom'
-import RecordDetailModal from '../RecordDetailModal'
 import RecordTable from './RecordTable'
 import RecordPagination from './RecordPagination'
 import LoadingRecordTable from './LoadingRecordTable'
@@ -18,31 +16,29 @@ const RecordPanel = ({ collectionName }: { collectionName: string }) => {
 
   if (isLoading) {
     return (
-      <Paper shadow="xs" p="lg" h={'50vh'} withBorder pos="relative">
+      <Card className="p-6 min-h-[50vh] border relative">
         <LoadingRecordTable />
-      </Paper>
+      </Card>
     )
   }
 
   if (queryResult) {
     if ('error' in queryResult) {
       return (
-        <Paper shadow="xs" px="lg" py="xs" mb="md" withBorder>
-          <Text c={'red'}>{queryResult.error}</Text>
-        </Paper>
+        <Card className="p-4 mb-4 border">
+          <p className="text-destructive">{queryResult.error}</p>
+        </Card>
       )
     } else {
       return (
-        <Paper shadow="xs" p="lg" withBorder>
-          <ModalsProvider modals={{ recordDetailModal: RecordDetailModal }}>
-            <RecordTable withQuery={!!query} recordsPage={queryResult}></RecordTable>
-            {query ? null : (
-              <Group pt="md" justify="flex-end">
-                <RecordPagination recordsPage={queryResult} />
-              </Group>
-            )}
-          </ModalsProvider>
-        </Paper>
+        <Card className="p-6 border">
+          <RecordTable withQuery={!!query} recordsPage={queryResult}></RecordTable>
+          {query ? null : (
+            <div className="pt-4 flex justify-end">
+              <RecordPagination recordsPage={queryResult} />
+            </div>
+          )}
+        </Card>
       )
     }
   }

@@ -1,14 +1,12 @@
-import { Box } from '@mantine/core'
-
 import SearchPanel from './SearchPanel'
 import RecordPanel from './RecordPanel'
 
 const RecordPage = ({ collectionName }: { collectionName: string }) => {
   return (
-    <Box>
+    <div>
       <SearchPanel />
       <RecordPanel collectionName={collectionName} />
-    </Box>
+    </div>
   )
 }
 
