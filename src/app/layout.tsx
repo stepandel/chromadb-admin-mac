@@ -1,5 +1,4 @@
 import ReactQueryProvider from '@/app/ReactQueryProvider'
-
 import './globals.css'
 
 import type { ReactNode } from 'react'

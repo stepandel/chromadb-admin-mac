@@ -1,8 +1,16 @@
-'use client'
+import ClientCollectionPage from './client-page'
 
-import RecordPage from '@/components/RecordPage'
+export async function generateStaticParams() {
+  // Generate some common collection names for static generation
+  // Other collections will be handled dynamically
+  return [
+    { name: 'default' },
+    { name: 'documents' },
+    { name: 'embeddings' }
+  ]
+}
 
 export default function CollectionPage({ params }: { params: { name: string } }) {
   const { name } = params
-  return <RecordPage collectionName={name} />
+  return <ClientCollectionPage collectionName={name} />
 }
